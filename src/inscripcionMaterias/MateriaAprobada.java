@@ -9,7 +9,7 @@ public class MateriaAprobada {
 	public MateriaAprobada(String nombreMateria, Integer nota, String nombreAlumno, Integer año) {
 		this.materia = nombreMateria;
 		this.nota = nota;
-		this.alumno = alumno;
+		this.alumno = nombreAlumno;
 		this.añoMateria = año;
 	}
 	
@@ -19,10 +19,6 @@ public class MateriaAprobada {
 	
 	public Integer nota() {
 		return this.nota;
-	}
-	
-	public String alumno() {
-		return this.alumno;
 	}
 	
 	public Integer año() {

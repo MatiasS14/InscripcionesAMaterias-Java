@@ -1,6 +1,5 @@
 package inscripcionMaterias;
 import java.util.Set;
-import java.util.HashSet;
 
 public class PrerrequisitoPorAño extends Prerrequisito{
 	private Integer año;
@@ -16,7 +15,4 @@ public class PrerrequisitoPorAño extends Prerrequisito{
 		return 	alumno.materiasDeAño(this.año).size() == this.carrera.materiasDeAño(this.año).size();//this.materiasAño.size();
 	}
 	
-	public Set<Materia> materiasAño(){
-		return this.carrera.materiasDeAño(this.año);
-	}
 }

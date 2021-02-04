@@ -29,8 +29,4 @@ public class PrerrequisitoCorrelativas extends Prerrequisito{
 		}
 	  return ret;
 	}
-	
-	public Set<String> materiasCorrelativas(){
-		return this.correlativas;
-	}
 }

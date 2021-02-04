@@ -37,10 +37,6 @@ public class Materia {
 		return this.nombre;
 	}
 	
-	public Integer cupo() {
-		return this.cupo;
-	}
-		
 	public Queue<Estudiante> listaDeEspera(){
 		return this.listaDeEspera.alumnos();
 	}
