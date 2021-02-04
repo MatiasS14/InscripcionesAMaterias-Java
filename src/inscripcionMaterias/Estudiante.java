@@ -86,6 +86,7 @@ public class Estudiante {
 	  return ret;
 	}
 	public Set<Materia> materiasInscripto(){
+		//retorna las materias a las que se inscribio, aun asi haya quedado en espera
 		return this.materias;
 	}
 	
