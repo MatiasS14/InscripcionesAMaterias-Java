@@ -30,7 +30,17 @@ public class SistemaInscripcion {
 	}
 	
 	public Set<Materia> materiasAlumnoInscripto(Estudiante alu){
-		return alu.materiasInscripto();
+		return materiasInscripto(alu, alu.materiasInscripto());
+	}
+	
+	private Set<Materia> materiasInscripto(Estudiante alu, Set<Materia> materias) {
+		Set<Materia> ret = new HashSet<Materia>();
+		for(Materia mat : materias) {
+			if(mat.alumnosInscriptos().contains(alu)) {
+				ret.add(mat);
+			}
+		}
+		return ret;
 	}
 	
 	public Set<Materia> materiasAlumnoEnEspera(Estudiante alu){
