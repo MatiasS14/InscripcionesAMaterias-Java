@@ -3,6 +3,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.PriorityQueue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
@@ -153,7 +155,7 @@ class TestInscripcionesMaterias {
 
 	@Test
 	void lucasLograCusrsarObjetos3Test() {
-		System.out.println("lucasLograCursarObjetos3Test");
+		System.out.println("#########lucasLograCursarObjetos3Test#########");
 		try{
 			lucas.ingresarACurso(objetos3);
 		}catch(RuntimeException e) {
@@ -168,7 +170,7 @@ class TestInscripcionesMaterias {
 
 	@Test
 	void ingresoAObjetos2Test() {
-		System.out.println("inscripcionAObjetos2Test");
+		System.out.println("#########inscripcionAObjetos2Test#########");
 		assertFalse(lucas.yaAprobo(objetos2)); // aqui lucas no aprobo objetos2
 		assertFalse(camila.yaAprobo(objetos2)); // aqui camila no aprobo objetos2
 		//lucas aprueba estructuras2 y pasa a tener 5 materias
@@ -205,7 +207,7 @@ class TestInscripcionesMaterias {
 	}
 	@Test
 	void inscripcionAMate2Test() {
-		System.out.println("inscripcionAMate2Test");
+		System.out.println("#########inscripcionAMate2Test#########");
 		try{
 			carlos.ingresarACurso(mate2);//intenta inscribirse pero falla
 		}catch(RuntimeException e) {
@@ -300,5 +302,102 @@ class TestInscripcionesMaterias {
 		assertTrue(sistema.carreras().contains(admHotelera));
 		assertTrue(sistema.carreras().contains(biotecnologia));		
 	}
+	@Test
+	void sitemaInscripcionTest() {
+		// carlos no esta inscripto en ninguna materia
+		assertTrue(sistema.materiasAlumnoInscripto(carlos).isEmpty());
+		//chequeamos las materias que puede cursar
+		assertTrue(sistema.materiasParaCursar(carlos, licInformatica).contains(mate1));
+		assertTrue(sistema.materiasParaCursar(carlos, licInformatica).contains(estructurasDeDatos));
+		//carlos ingresa a las materias
+		carlos.ingresarACurso(mate1);
+		carlos.ingresarACurso(estructurasDeDatos);
+		assertEquals(2, sistema.materiasAlumnoInscripto(carlos).size());
+		assertTrue(sistema.materiasAlumnoInscripto(carlos).contains(mate1));
+		assertTrue(sistema.materiasAlumnoInscripto(carlos).contains(estructurasDeDatos));
+		assertFalse(sistema.materiasAlumnoInscripto(carlos).contains(objetos1));
+		
+		/////////////////////////////////////////////////////////////////
+		//para la siguiente prueba se crean materias con 1 cupo, 
+		//sin requisitos y con lista de espera por orden de llegada
+		ListaDeEspera ordenDeLlegadaTI = new ListaDeEsperaOrdenDeLLegada();
+		Materia tallerDeTrabajoIntelectual = new Materia(licInformatica, sinPrerrequisito, 
+				"trabajoIntelectual", 1, 1, ordenDeLlegadaTI, 10);
+		
+		ListaDeEspera ordenDeLlegadaIngles1= new ListaDeEsperaOrdenDeLLegada();
+		Materia ingles1= new Materia(licInformatica, sinPrerrequisito,"Ingles1", 1, 1, ordenDeLlegadaIngles1, 10);
 
+		ListaDeEspera ordenDeLlegadaSeminario= new ListaDeEsperaOrdenDeLLegada();
+		Materia seminarioArduino= new Materia(licInformatica, sinPrerrequisito,"seminarioArduino", 1, 1, ordenDeLlegadaSeminario, 10);
+		
+		//se agregan las materias a la carrera de licInformatica
+		licInformatica.agregarMateria(tallerDeTrabajoIntelectual);
+		licInformatica.agregarMateria(ingles1);
+		licInformatica.agregarMateria(seminarioArduino);
+		//los alumnos ingresan a tallerDeTrabajoIntelectual
+		lucas.ingresarACurso(tallerDeTrabajoIntelectual);
+		carlos.ingresarACurso(tallerDeTrabajoIntelectual);
+		camila.ingresarACurso(tallerDeTrabajoIntelectual);
+		agustina.ingresarACurso(tallerDeTrabajoIntelectual);
+		//el unico que ingreso directamente es lucas
+		assertEquals(1, sistema.alumnosInscriptos(tallerDeTrabajoIntelectual).size());
+		assertTrue(sistema.alumnosInscriptos(tallerDeTrabajoIntelectual).contains(lucas));
+		assertFalse(sistema.alumnosInscriptos(tallerDeTrabajoIntelectual).contains(carlos));
+		assertFalse(sistema.alumnosInscriptos(tallerDeTrabajoIntelectual).contains(camila));
+		assertFalse(sistema.alumnosInscriptos(tallerDeTrabajoIntelectual).contains(agustina));
+		//la lista de espera debe quedar en el orden en que ingresaron
+		//carlos, camila, agustina (lucas no esta porque el ingreso a la materia)
+		assertEquals(3, sistema.alumnosEnEspera(tallerDeTrabajoIntelectual).size());
+		System.out.println("#########Sistema inscripcion test#########");
+		for(Estudiante alu : sistema.alumnosEnEspera(tallerDeTrabajoIntelectual)) {
+			System.out.println("El alumno con mas prioridad en Taller es:");
+			System.out.println(alu.nombre());
+		}
+		
+		//los alumnos ingresan a seminarioArduino
+		carlos.ingresarACurso(seminarioArduino);
+		lucas.ingresarACurso(seminarioArduino);
+		camila.ingresarACurso(seminarioArduino);
+		agustina.ingresarACurso(seminarioArduino);
+		//el unico que ingreso directamente es carlos
+		assertEquals(1, sistema.alumnosInscriptos(seminarioArduino).size());
+		assertTrue(sistema.alumnosInscriptos(seminarioArduino).contains(carlos));
+		assertFalse(sistema.alumnosInscriptos(seminarioArduino).contains(lucas));
+		assertFalse(sistema.alumnosInscriptos(seminarioArduino).contains(camila));
+		assertFalse(sistema.alumnosInscriptos(seminarioArduino).contains(agustina));
+		//se da de baja carlos de semirioArduino
+		//de este modo el que ingresa a la materia debe ser lucas
+		carlos.bajaMateria(seminarioArduino);
+		assertEquals(1, sistema.alumnosInscriptos(seminarioArduino).size());
+		//ahora lucas es el inscripto ya que entro primero a la lista de espera
+		assertTrue(sistema.alumnosInscriptos(seminarioArduino).contains(lucas));
+		assertFalse(sistema.alumnosInscriptos(seminarioArduino).contains(carlos));
+		
+		//los alumnos ingresan a ingles1
+		//la que entra directo es camila, 
+		//los demas quedan en lista de espera
+		camila.ingresarACurso(ingles1);
+		carlos.ingresarACurso(ingles1);
+		agustina.ingresarACurso(ingles1);
+		lucas.ingresarACurso(ingles1);
+
+		//corroboramos las materias en que carlos queda en lista de espera
+		assertEquals(2, sistema.materiasAlumnoEnEspera(camila).size());
+		assertTrue(sistema.materiasAlumnoEnEspera(camila).contains(tallerDeTrabajoIntelectual));
+		assertTrue(sistema.materiasAlumnoEnEspera(camila).contains(seminarioArduino));
+		assertFalse(sistema.materiasAlumnoEnEspera(camila).contains(ingles1));
+
+		//ahora comprobamos las materias a las que quedo inscripta camila		
+		assertEquals(1, sistema.materiasAlumnoInscripto(camila).size());
+		assertFalse(sistema.materiasAlumnoInscripto(camila).contains(tallerDeTrabajoIntelectual));
+		assertFalse(sistema.materiasAlumnoInscripto(camila).contains(seminarioArduino));
+		assertTrue(sistema.materiasAlumnoInscripto(camila).contains(ingles1));		
+
+
+
+		
+		
+		
+		
+	}
 }
