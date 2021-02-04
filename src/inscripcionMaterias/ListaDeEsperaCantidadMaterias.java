@@ -1,5 +1,6 @@
 package inscripcionMaterias;
 import java.util.Comparator;
+import java.util.Queue;
 import java.util.PriorityQueue;
 
 public class ListaDeEsperaCantidadMaterias extends ListaDeEspera{
@@ -30,7 +31,7 @@ public class ListaDeEsperaCantidadMaterias extends ListaDeEspera{
 		this.alumnosEnEspera.poll();		
 	}
 	
-	public PriorityQueue<Estudiante> alumnos(){
+	public Queue<Estudiante> alumnos(){
 		return this.alumnosEnEspera;
 	}
 

@@ -1,10 +1,12 @@
 package inscripcionMaterias;
-import java.util.PriorityQueue;
+//import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class ListaDeEsperaOrdenDeLLegada extends ListaDeEspera{
-	private PriorityQueue<Estudiante> alumnosEnEspera;
+	private Queue<Estudiante> alumnosEnEspera;
 	public ListaDeEsperaOrdenDeLLegada() {
-		this.alumnosEnEspera = new PriorityQueue<Estudiante>();
+		this.alumnosEnEspera = new LinkedList<Estudiante>();
 	}
 	
 	@Override
@@ -18,7 +20,7 @@ public class ListaDeEsperaOrdenDeLLegada extends ListaDeEspera{
 		
 	}
 	
-	public PriorityQueue<Estudiante> alumnos() {
+	public Queue<Estudiante> alumnos() {
 		return this.alumnosEnEspera;
 	}
 

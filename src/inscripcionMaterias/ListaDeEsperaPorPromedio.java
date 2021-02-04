@@ -1,10 +1,12 @@
 package inscripcionMaterias;
 import java.util.Comparator;
+
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 	
 public class ListaDeEsperaPorPromedio extends ListaDeEspera{
-	private PriorityQueue<Estudiante> alumnosEnEspera;
+	private Queue<Estudiante> alumnosEnEspera;
 	
 	protected Comparator<Estudiante> comparador = new Comparator<Estudiante>() {
 		public int compare(Estudiante alu1, Estudiante alu2) {
@@ -31,7 +33,7 @@ public class ListaDeEsperaPorPromedio extends ListaDeEspera{
 		
 	}
 	
-	public PriorityQueue<Estudiante> alumnos(){
+	public Queue<Estudiante> alumnos(){
 		return this.alumnosEnEspera;
 	}
 

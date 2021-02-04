@@ -1,5 +1,5 @@
 package inscripcionMaterias;
-import java.util.PriorityQueue;
+import java.util.Queue;
 
 public abstract class ListaDeEspera {
 	
@@ -9,5 +9,5 @@ public abstract class ListaDeEspera {
 	
 	public abstract void salirListaDeEspera();
 	
-	public abstract PriorityQueue<Estudiante> alumnos();
+	public abstract Queue<Estudiante> alumnos();
 }
