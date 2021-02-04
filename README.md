@@ -1,3 +1,5 @@
+Este es un enunciado utilizado para la materia programacion con objetos 1, se usa a modo de base, no se sigue al pie de la letra.
+
 # Inscripción a materias
 
 Queremos implementar un sistema que permita realizar la inscripción a materias de una Universidad. Ojo, prestar bien atención a las reglas del dominio, que pueden no ser exactamente iguales a las de tu universidad.
