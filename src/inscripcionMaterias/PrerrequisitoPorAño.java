@@ -1,5 +1,4 @@
 package inscripcionMaterias;
-import java.util.Set;
 
 public class PrerrequisitoPorAño extends Prerrequisito{
 	private Integer año;
