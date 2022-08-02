@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
+import inscripcionMaterias.Errores.ErrorMateriaAprobada;
 import inscripcionMaterias.listasDeEspera.ListaDeEspera;
 import inscripcionMaterias.listasDeEspera.ListaDeEsperaCantidadMaterias;
 import inscripcionMaterias.listasDeEspera.ListaDeEsperaOrdenDeLLegada;
@@ -74,7 +75,7 @@ class TestInscripcionesMaterias {
 	Set<Materia> materiasCarrera;
 	
 	@BeforeEach
-	void setup() {
+	void setup() throws ErrorMateriaAprobada{
 		//Sistema
 		sistema = new SistemaInscripcion();
 		///////////////////////////////////////////////////////////
@@ -163,7 +164,7 @@ class TestInscripcionesMaterias {
 
 
 	@Test
-	void lucasLograCusrsarObjetos3Test() {
+	void lucasLograCusrsarObjetos3Test() throws ErrorMateriaAprobada{
 		System.out.println("#########lucasLograCursarObjetos3Test#########");
 		try{
 			lucas.ingresarACurso(objetos3);
@@ -178,7 +179,7 @@ class TestInscripcionesMaterias {
 	}
 
 	@Test
-	void ingresoAObjetos2Test() {
+	void ingresoAObjetos2Test() throws ErrorMateriaAprobada{
 		System.out.println("#########inscripcionAObjetos2Test#########");
 		assertFalse(lucas.yaAprobo(objetos2)); // aqui lucas no aprobo objetos2
 		assertFalse(camila.yaAprobo(objetos2)); // aqui camila no aprobo objetos2
@@ -215,7 +216,7 @@ class TestInscripcionesMaterias {
 																	//y lo elimina para poder avanzar
 	}
 	@Test
-	void inscripcionAMate2Test() {
+	void inscripcionAMate2Test() throws ErrorMateriaAprobada{
 		System.out.println("#########inscripcionAMate2Test#########");
 		try{
 			carlos.ingresarACurso(mate2);//intenta inscribirse pero falla

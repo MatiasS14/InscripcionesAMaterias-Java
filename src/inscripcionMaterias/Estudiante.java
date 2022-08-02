@@ -1,5 +1,9 @@
 package inscripcionMaterias;
 import java.util.Set;
+
+import inscripcionMaterias.Errores.ErrorMateriaAprobada;
+import inscripcionMaterias.borradores.BorradorMateriaAprobada;
+
 import java.util.HashSet;
 
 public class Estudiante {
@@ -29,10 +33,11 @@ public class Estudiante {
 		return materia.cumplePrerrequisitos(this);
 	}
 	
-	public void registrarMateriaAprobada(Materia matAprobada, Integer nota) {
+	public void registrarMateriaAprobada(Materia matAprobada, Integer nota) throws ErrorMateriaAprobada{
 		this.creditosObtenidos+= matAprobada.creditosOtorga();
-		this.materiasAprobadas.add(new MateriaAprobada(matAprobada.nombreMateria(),nota,
-				                    this.nombre(), matAprobada.año()));
+		 BorradorMateriaAprobada materia = new BorradorMateriaAprobada(matAprobada.nombreMateria(),nota,
+                this.nombre(), matAprobada.año());
+		this.materiasAprobadas.add(new MateriaAprobada(materia));
 		matAprobada.bajaAlumno(this);//como ya esta aprobado, 
 									//se lo elimina de la lista de la materia
 	}
