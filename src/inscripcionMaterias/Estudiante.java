@@ -1,7 +1,11 @@
 package inscripcionMaterias;
 import java.util.Set;
 
+import org.junit.platform.commons.util.StringUtils;
+
+import inscripcionMaterias.Errores.ErrorEstudiante;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
+import inscripcionMaterias.borradores.BorradorEstudiante;
 import inscripcionMaterias.borradores.BorradorMateriaAprobada;
 
 import java.util.HashSet;
@@ -13,16 +17,23 @@ public class Estudiante {
 	private Set<MateriaAprobada> materiasAprobadas;
 	private Integer creditosObtenidos; //creditos obtenidos hasta el momento
 	
-	public Estudiante(String nombre) {
+	public Estudiante(BorradorEstudiante estudiante) throws ErrorEstudiante{
+		validarEstudiante(estudiante);
 		this.carreras = new HashSet<Carrera>();
 		this.materias = new HashSet<Materia>();
 		this.materiasAprobadas = new HashSet<MateriaAprobada>();
-		this.nombre = nombre;
+		this.nombre = estudiante.nombre;
 		this.creditosObtenidos = 0;
 	}
 	
-	public void inscribirseCarrera(Carrera carrera) {
+	private void validarEstudiante(BorradorEstudiante estudiante) throws ErrorEstudiante{
+		if(StringUtils.isBlank(estudiante.nombre)) {throw new ErrorEstudiante("El nombre del estudiante no es valido");}
+	}
+	
+	public void inscribirseCarrera(Carrera carrera) throws ErrorEstudiante{
+		if(! this.carreras.contains(carrera)) {
 		this.carreras.add(carrera);
+		}else {throw new ErrorEstudiante("El alumno ya esta inscripto en la carrera");}
 	}
 	
 	public Set<MateriaAprobada> materiasAprobadas(){
@@ -35,23 +46,25 @@ public class Estudiante {
 	
 	public void registrarMateriaAprobada(Materia matAprobada, Integer nota) throws ErrorMateriaAprobada{
 		this.creditosObtenidos+= matAprobada.creditosOtorga();
+		
 		 BorradorMateriaAprobada materia = new BorradorMateriaAprobada(matAprobada.nombreMateria(),nota,
                 this.nombre(), matAprobada.año());
+		
 		this.materiasAprobadas.add(new MateriaAprobada(materia));
 		matAprobada.bajaAlumno(this);//como ya esta aprobado, 
 									//se lo elimina de la lista de la materia
 	}
 	
-	public void ingresarACurso(Materia materia) {
+	public void ingresarACurso(Materia materia) throws ErrorEstudiante{
 		if(esMateriaDeCarrera(this, materia) && this.puedeCursar(materia) && !this.yaAprobo(materia)) {
 			materia.altaAlumno(this);
 			this.materias.add(materia);
 		}else {
 			if(this.yaAprobo(materia)) {
-				throw new RuntimeException("Esta materia ya fue aprobada");
+				throw new ErrorEstudiante("Esta materia ya fue aprobada");
 			}
 			if(!this.puedeCursar(materia)) {
-				throw new RuntimeException("No cumple prerrequisitos");
+				throw new ErrorEstudiante("No cumple prerrequisitos");
 			}
 		}
 	}
@@ -68,9 +81,11 @@ public class Estudiante {
 		return ret;
 	}
 	
-	public void bajaMateria(Materia materia) {
+	public void bajaMateria(Materia materia) throws ErrorEstudiante{
+		if(this.materias.contains(materia)) {
 		this.materias.remove(materia);
 		materia.bajaAlumno(this);
+		}else { throw new ErrorEstudiante("El alumno no cursa esta materia");}
 	}
 	
 	public String nombre() {
