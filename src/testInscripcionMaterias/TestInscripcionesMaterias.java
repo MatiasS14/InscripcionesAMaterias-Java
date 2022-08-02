@@ -10,9 +10,11 @@ import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
 import inscripcionMaterias.Errores.ErrorCarrera;
 import inscripcionMaterias.Errores.ErrorEstudiante;
+import inscripcionMaterias.Errores.ErrorMateria;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
 import inscripcionMaterias.borradores.BorradorCarrera;
 import inscripcionMaterias.borradores.BorradorEstudiante;
+import inscripcionMaterias.borradores.BorradorMateria;
 import inscripcionMaterias.listasDeEspera.ListaDeEspera;
 import inscripcionMaterias.listasDeEspera.ListaDeEsperaCantidadMaterias;
 import inscripcionMaterias.listasDeEspera.ListaDeEsperaOrdenDeLLegada;
@@ -57,6 +59,15 @@ class TestInscripcionesMaterias {
 	Estudiante carlos;//debe cursar las primeras materias
 	Estudiante agustina;//debe cursar las primeras materias
 	
+	//Borrador materia
+	BorradorMateria borradorEstructuras;
+	BorradorMateria borradorEstructuras2;
+	BorradorMateria borradorObjetos1;
+	BorradorMateria borradorObjetos2;
+	BorradorMateria borradorObjetos3;
+	BorradorMateria borradorMate1;
+	BorradorMateria borradorMate2;
+	
 	//Materias
 	Materia estructurasDeDatos;//sin prerrequisito- año1- orden de llegada
 	Materia estructurasDeDatos2;//sin prerrequisito- año2- orden de llegada
@@ -86,7 +97,7 @@ class TestInscripcionesMaterias {
 	Set<Materia> materiasCarrera;
 	
 	@BeforeEach
-	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera{
+	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera, ErrorMateria{
 		//Sistema
 		sistema = new SistemaInscripcion();
 		///////////////////////////////////////////////////////////
@@ -133,14 +144,22 @@ class TestInscripcionesMaterias {
 		prerrequisitoCreditos = new PrerrequisitoPorCreditos(12);
 		sinPrerrequisito = new SinPrerrequisito();
 		///////////////////////////////////////////////////////////
+		//Borradoes materias
+		borradorEstructuras = new BorradorMateria(licInformatica, sinPrerrequisito, "EstructuraDeDatos", 1, 1, ordenDeLlegada, 12);
+		borradorEstructuras2 = new BorradorMateria(licInformatica, sinPrerrequisito, "EstructuraDeDatos2", 2, 4, ordenDeLlegada, 12);
+		borradorObjetos1 = new BorradorMateria(licInformatica, prerrequisitoCreditos, "Objetos1", 1, 3, ordenDeLlegada, 14);
+		borradorObjetos2 = new BorradorMateria(licInformatica, prerrequisitoAño, "Objetos2", 2, 1, cantidadMaterias, 16);
+		borradorObjetos3 = new BorradorMateria(licInformatica, prerrequisitoCorrelativasObjetos3, "Objetos3", 3, 2, ordenDeLlegada, 16);
+		borradorMate1 = new BorradorMateria(licInformatica, sinPrerrequisito, "Mate1", 1, 4, ordenDeLlegada, 10);
+		borradorMate2 = new BorradorMateria(licInformatica, prerrequisitoCorrelativasMate2, "Mate2", 2, 0, porPromedio, 16);		
 		//Materias
-		estructurasDeDatos = new Materia(licInformatica, sinPrerrequisito, "EstructuraDeDatos", 1, 1, ordenDeLlegada, 12);
-		estructurasDeDatos2 = new Materia(licInformatica, sinPrerrequisito, "EstructuraDeDatos2", 2, 4, ordenDeLlegada, 12);
-		objetos1 = new Materia(licInformatica, prerrequisitoCreditos, "Objetos1", 1, 3, ordenDeLlegada, 14);
-		objetos2 = new Materia(licInformatica, prerrequisitoAño, "Objetos2", 2, 1, cantidadMaterias, 16);
-		objetos3 = new Materia(licInformatica, prerrequisitoCorrelativasObjetos3, "Objetos3", 3, 2, ordenDeLlegada, 16);
-		mate1 = new Materia(licInformatica, sinPrerrequisito, "Mate1", 1, 4, ordenDeLlegada, 10);
-		mate2 = new Materia(licInformatica, prerrequisitoCorrelativasMate2, "Mate2", 2, 0, porPromedio, 16);
+		estructurasDeDatos = new Materia(borradorEstructuras);
+		estructurasDeDatos2 = new Materia(borradorEstructuras2);
+		objetos1 = new Materia(borradorObjetos1);
+		objetos2 = new Materia(borradorObjetos2);
+		objetos3 = new Materia(borradorObjetos3);
+		mate1 = new Materia(borradorMate1);
+		mate2 = new Materia(borradorMate2);
 		///////////////////////////////////////////////////////////	
 		//Materias Carrera
 		materiasCarrera = new HashSet<Materia>();
@@ -333,7 +352,7 @@ class TestInscripcionesMaterias {
 		assertTrue(sistema.carreras().contains(biotecnologia));		
 	}
 	@Test
-	void sitemaInscripcionTest() throws ErrorEstudiante, ErrorCarrera{
+	void sitemaInscripcionTest() throws ErrorEstudiante, ErrorCarrera, ErrorMateria{
 		// carlos no esta inscripto en ninguna materia
 		assertTrue(sistema.materiasAlumnoInscripto(carlos).isEmpty());
 		//chequeamos las materias que puede cursar
@@ -351,14 +370,20 @@ class TestInscripcionesMaterias {
 		//para la siguiente prueba se crean materias con 1 cupo, 
 		//sin requisitos y con lista de espera por orden de llegada
 		ListaDeEspera ordenDeLlegadaTI = new ListaDeEsperaOrdenDeLLegada();
-		Materia tallerDeTrabajoIntelectual = new Materia(licInformatica, sinPrerrequisito, 
+		
+		BorradorMateria borradortallerDeTrabajoIntelectual =
+				new BorradorMateria(licInformatica, sinPrerrequisito, 
 				"trabajoIntelectual", 1, 1, ordenDeLlegadaTI, 10);
 		
+		Materia tallerDeTrabajoIntelectual = new Materia(borradortallerDeTrabajoIntelectual);
+		
 		ListaDeEspera ordenDeLlegadaIngles1= new ListaDeEsperaOrdenDeLLegada();
-		Materia ingles1= new Materia(licInformatica, sinPrerrequisito,"Ingles1", 1, 1, ordenDeLlegadaIngles1, 10);
+		BorradorMateria borradorIngles1 = new BorradorMateria(licInformatica, sinPrerrequisito,"Ingles1", 1, 1, ordenDeLlegadaIngles1, 10);
+		Materia ingles1= new Materia(borradorIngles1);
 
 		ListaDeEspera ordenDeLlegadaSeminario= new ListaDeEsperaOrdenDeLLegada();
-		Materia seminarioArduino= new Materia(licInformatica, sinPrerrequisito,"seminarioArduino", 1, 1, ordenDeLlegadaSeminario, 10);
+		BorradorMateria borradorSeminarioArduino = new BorradorMateria(licInformatica, sinPrerrequisito,"seminarioArduino", 1, 1, ordenDeLlegadaSeminario, 10);
+		Materia seminarioArduino= new Materia(borradorSeminarioArduino);
 		
 		//se agregan las materias a la carrera de licInformatica
 		licInformatica.agregarMateria(tallerDeTrabajoIntelectual);

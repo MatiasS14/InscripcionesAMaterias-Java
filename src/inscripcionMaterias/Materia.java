@@ -1,6 +1,10 @@
 package inscripcionMaterias;
 import java.util.Set;
 
+import org.junit.platform.commons.util.StringUtils;
+
+import inscripcionMaterias.Errores.ErrorMateria;
+import inscripcionMaterias.borradores.BorradorMateria;
 import inscripcionMaterias.listasDeEspera.ListaDeEspera;
 import inscripcionMaterias.prerrequisitosMaterias.Prerrequisito;
 
@@ -17,16 +21,26 @@ public class Materia {
 	private Set<Estudiante> alumnosInscriptos;
 	private Integer creditos;
 	
-	public Materia(Carrera carrera, Prerrequisito prerrequisitos, String nombre,
-			Integer año, Integer cupo, ListaDeEspera listaDeEspera, Integer creditos) {
-		this.carrera = carrera;
-		this.prerrequisito = prerrequisitos;
-		this.nombre = nombre;
-		this.año = año;
-		this.cupo = cupo;
-		this.listaDeEspera = listaDeEspera;
+	public Materia(BorradorMateria materia) throws ErrorMateria{
+		validarMateria(materia);
+		this.carrera = materia.carrera;
+		this.prerrequisito = materia.prerrequisitos;
+		this.nombre = materia.nombre;
+		this.año = materia.año;
+		this.cupo = materia.cupo;
+		this.listaDeEspera = materia.listaDeEspera;
 		this.alumnosInscriptos = new HashSet<Estudiante>();
-		this.creditos = creditos;
+		this.creditos = materia.creditos;
+	}
+	
+	private void validarMateria(BorradorMateria materia) throws ErrorMateria{
+		if(StringUtils.isBlank(materia.carrera.nombre()) ) {throw new ErrorMateria("La carrera no es valida");}
+		if(materia.prerrequisitos == null) {throw new ErrorMateria("Los prerrequisitos no son validos");}
+		if(StringUtils.isBlank(materia.nombre)) {throw new ErrorMateria("El nombre de la materia no puede ser vacio");};
+		if(materia.año < 1) {throw new ErrorMateria("El año de la materia no es valido");}
+		if(materia.cupo < 0) {throw new ErrorMateria("El cupo de la materia no es valido");}
+		if(materia.listaDeEspera == null) {throw new ErrorMateria("La lista de espera no es valida");}
+		if(materia.creditos < 1) {throw new ErrorMateria("Los creditos de la materia no son validos");}
 	}
 	
 	public Boolean cumplePrerrequisitos(Estudiante alumno) {

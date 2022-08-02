@@ -24,6 +24,8 @@ public class Carrera {
 		if(StringUtils.isBlank(carrera.nombre)) {throw new ErrorCarrera("El nombre de la carrera esta vacio");}
 	}
 	
+	public String nombre() {return this.nombre;}
+	
 	
 	public void agregarMateria(Materia mat) throws ErrorCarrera{
 		if(!this.materias.contains(mat)) {
