@@ -1,4 +1,7 @@
-package inscripcionMaterias;
+package inscripcionMaterias.prerrequisitosMaterias;
+
+import inscripcionMaterias.Estudiante;
+import inscripcionMaterias.Materia;
 
 public class SinPrerrequisito extends Prerrequisito{
 

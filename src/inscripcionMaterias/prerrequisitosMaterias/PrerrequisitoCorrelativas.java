@@ -1,5 +1,10 @@
-package inscripcionMaterias;
+package inscripcionMaterias.prerrequisitosMaterias;
 import java.util.Set;
+
+import inscripcionMaterias.Estudiante;
+import inscripcionMaterias.Materia;
+import inscripcionMaterias.MateriaAprobada;
+
 import java.util.HashSet;
 
 public class PrerrequisitoCorrelativas extends Prerrequisito{

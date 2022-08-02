@@ -1,5 +1,9 @@
 package inscripcionMaterias;
 import java.util.Set;
+
+import inscripcionMaterias.listasDeEspera.ListaDeEspera;
+import inscripcionMaterias.prerrequisitosMaterias.Prerrequisito;
+
 import java.util.HashSet;
 import java.util.Queue;
 

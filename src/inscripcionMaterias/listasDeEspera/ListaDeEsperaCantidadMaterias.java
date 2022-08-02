@@ -1,6 +1,9 @@
-package inscripcionMaterias;
+package inscripcionMaterias.listasDeEspera;
 import java.util.Comparator;
 import java.util.Queue;
+
+import inscripcionMaterias.Estudiante;
+
 import java.util.PriorityQueue;
 
 public class ListaDeEsperaCantidadMaterias extends ListaDeEspera{

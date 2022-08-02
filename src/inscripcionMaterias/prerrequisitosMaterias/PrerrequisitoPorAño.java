@@ -1,4 +1,8 @@
-package inscripcionMaterias;
+package inscripcionMaterias.prerrequisitosMaterias;
+
+import inscripcionMaterias.Carrera;
+import inscripcionMaterias.Estudiante;
+import inscripcionMaterias.Materia;
 
 public class PrerrequisitoPorAño extends Prerrequisito{
 	private Integer año;

@@ -1,6 +1,9 @@
-package inscripcionMaterias;
+package inscripcionMaterias.listasDeEspera;
 //import java.util.PriorityQueue;
 import java.util.Queue;
+
+import inscripcionMaterias.Estudiante;
+
 import java.util.LinkedList;
 
 public class ListaDeEsperaOrdenDeLLegada extends ListaDeEspera{

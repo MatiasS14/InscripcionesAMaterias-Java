@@ -1,5 +1,7 @@
-package inscripcionMaterias;
+package inscripcionMaterias.listasDeEspera;
 import java.util.Queue;
+
+import inscripcionMaterias.Estudiante;
 
 public abstract class ListaDeEspera {
 	

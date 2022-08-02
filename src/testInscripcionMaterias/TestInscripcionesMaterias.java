@@ -8,6 +8,15 @@ import java.util.PriorityQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
+import inscripcionMaterias.listasDeEspera.ListaDeEspera;
+import inscripcionMaterias.listasDeEspera.ListaDeEsperaCantidadMaterias;
+import inscripcionMaterias.listasDeEspera.ListaDeEsperaOrdenDeLLegada;
+import inscripcionMaterias.listasDeEspera.ListaDeEsperaPorPromedio;
+import inscripcionMaterias.prerrequisitosMaterias.Prerrequisito;
+import inscripcionMaterias.prerrequisitosMaterias.PrerrequisitoCorrelativas;
+import inscripcionMaterias.prerrequisitosMaterias.PrerrequisitoPorAño;
+import inscripcionMaterias.prerrequisitosMaterias.PrerrequisitoPorCreditos;
+import inscripcionMaterias.prerrequisitosMaterias.SinPrerrequisito;
 
 class TestInscripcionesMaterias {
 	//Sistema de inscripciones
