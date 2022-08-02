@@ -8,8 +8,10 @@ import java.util.PriorityQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
+import inscripcionMaterias.Errores.ErrorCarrera;
 import inscripcionMaterias.Errores.ErrorEstudiante;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
+import inscripcionMaterias.borradores.BorradorCarrera;
 import inscripcionMaterias.borradores.BorradorEstudiante;
 import inscripcionMaterias.listasDeEspera.ListaDeEspera;
 import inscripcionMaterias.listasDeEspera.ListaDeEsperaCantidadMaterias;
@@ -25,6 +27,8 @@ class TestInscripcionesMaterias {
 	//Sistema de inscripciones
 	SistemaInscripcion sistema;
 	
+	//Borrador carrera
+	BorradorCarrera borradorLicInformatica;
 	//Carrera
 	Carrera licInformatica;
 	
@@ -82,12 +86,14 @@ class TestInscripcionesMaterias {
 	Set<Materia> materiasCarrera;
 	
 	@BeforeEach
-	void setup() throws ErrorMateriaAprobada, ErrorEstudiante{
+	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera{
 		//Sistema
 		sistema = new SistemaInscripcion();
 		///////////////////////////////////////////////////////////
+		//Borrador Carrera
+		borradorLicInformatica = new BorradorCarrera("Licenciatura en informatica");
 		//Carrera
-		licInformatica = new Carrera();
+		licInformatica = new Carrera(borradorLicInformatica);
 		///////////////////////////////////////////////////////////
 		//Borrador Alumnos
 		borradorLucas = new BorradorEstudiante("Lucas");
@@ -305,10 +311,12 @@ class TestInscripcionesMaterias {
 	}
 	
 	@Test
-	void agregarCarreraASistema() {
-		//creamos carreras(vacias) para corroborar que ingresan al sistema		
-		Carrera admHotelera = new Carrera();
-		Carrera biotecnologia= new Carrera();
+	void agregarCarreraASistema() throws ErrorCarrera{
+		//creamos carreras(vacias) para corroborar que ingresan al sistema
+		BorradorCarrera borradorAdmHotel = new BorradorCarrera("Administracion hotelera");
+		BorradorCarrera borradorBiotecnologia = new BorradorCarrera("Biotecnologia");
+		Carrera admHotelera = new Carrera(borradorAdmHotel);
+		Carrera biotecnologia= new Carrera(borradorAdmHotel);
 		assertEquals(1, sistema.carreras().size());//como el sistema tiene solo licInformatica
 											//solo tiene una carrera
 		assertTrue(sistema.carreras().contains(licInformatica));
@@ -325,7 +333,7 @@ class TestInscripcionesMaterias {
 		assertTrue(sistema.carreras().contains(biotecnologia));		
 	}
 	@Test
-	void sitemaInscripcionTest() throws ErrorEstudiante{
+	void sitemaInscripcionTest() throws ErrorEstudiante, ErrorCarrera{
 		// carlos no esta inscripto en ninguna materia
 		assertTrue(sistema.materiasAlumnoInscripto(carlos).isEmpty());
 		//chequeamos las materias que puede cursar
