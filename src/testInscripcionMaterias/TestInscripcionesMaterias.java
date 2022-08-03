@@ -13,6 +13,7 @@ import inscripcionMaterias.Errores.ErrorEstudiante;
 import inscripcionMaterias.Errores.ErrorListaEspera;
 import inscripcionMaterias.Errores.ErrorMateria;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
+import inscripcionMaterias.Errores.ErrorPrerrequisito;
 import inscripcionMaterias.borradores.BorradorCarrera;
 import inscripcionMaterias.borradores.BorradorEstudiante;
 import inscripcionMaterias.borradores.BorradorMateria;
@@ -98,7 +99,7 @@ class TestInscripcionesMaterias {
 	Set<Materia> materiasCarrera;
 	
 	@BeforeEach
-	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera, ErrorMateria, ErrorListaEspera{
+	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera, ErrorMateria, ErrorListaEspera, ErrorPrerrequisito{
 		//Sistema
 		sistema = new SistemaInscripcion();
 		///////////////////////////////////////////////////////////
