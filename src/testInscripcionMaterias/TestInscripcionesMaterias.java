@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import inscripcionMaterias.*;
 import inscripcionMaterias.Errores.ErrorCarrera;
 import inscripcionMaterias.Errores.ErrorEstudiante;
+import inscripcionMaterias.Errores.ErrorListaEspera;
 import inscripcionMaterias.Errores.ErrorMateria;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
 import inscripcionMaterias.borradores.BorradorCarrera;
@@ -97,7 +98,7 @@ class TestInscripcionesMaterias {
 	Set<Materia> materiasCarrera;
 	
 	@BeforeEach
-	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera, ErrorMateria{
+	void setup() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorCarrera, ErrorMateria, ErrorListaEspera{
 		//Sistema
 		sistema = new SistemaInscripcion();
 		///////////////////////////////////////////////////////////
@@ -201,7 +202,7 @@ class TestInscripcionesMaterias {
 
 
 	@Test
-	void lucasLograCusrsarObjetos3Test() throws ErrorMateriaAprobada, ErrorEstudiante{
+	void lucasLograCusrsarObjetos3Test() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorListaEspera{
 		System.out.println("#########lucasLograCursarObjetos3Test#########");
 		try{
 			lucas.ingresarACurso(objetos3);
@@ -216,7 +217,7 @@ class TestInscripcionesMaterias {
 	}
 
 	@Test
-	void ingresoAObjetos2Test() throws ErrorMateriaAprobada, ErrorEstudiante{
+	void ingresoAObjetos2Test() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorListaEspera{
 		System.out.println("#########inscripcionAObjetos2Test#########");
 		assertFalse(lucas.yaAprobo(objetos2)); // aqui lucas no aprobo objetos2
 		assertFalse(camila.yaAprobo(objetos2)); // aqui camila no aprobo objetos2
@@ -253,7 +254,7 @@ class TestInscripcionesMaterias {
 																	//y lo elimina para poder avanzar
 	}
 	@Test
-	void inscripcionAMate2Test() throws ErrorMateriaAprobada, ErrorEstudiante{
+	void inscripcionAMate2Test() throws ErrorMateriaAprobada, ErrorEstudiante, ErrorListaEspera{
 		System.out.println("#########inscripcionAMate2Test#########");
 		try{
 			carlos.ingresarACurso(mate2);//intenta inscribirse pero falla
@@ -299,7 +300,7 @@ class TestInscripcionesMaterias {
 		
 	}
 	@Test
-	void materiasParaCursarAlumnoTest() {
+	void materiasParaCursarAlumnoTest() throws ErrorListaEspera{
 		
 		assertEquals(4, lucas.materiasAprobadas().size());//cantidad de materias aprobadas
 		//tiene solo 2 materias disponibles para cursar
@@ -316,7 +317,7 @@ class TestInscripcionesMaterias {
 	}
 	
 	@Test
-	void alumnosInscriptosMateriaDesdeSistemaTest() throws ErrorEstudiante{
+	void alumnosInscriptosMateriaDesdeSistemaTest() throws ErrorEstudiante, ErrorListaEspera{
 		//la lista comienza con 0 alumnos
 		assertEquals(0, sistema.alumnosInscriptos(estructurasDeDatos2).size());
 		carlos.ingresarACurso(estructurasDeDatos2);//carlos se inscribe
@@ -330,7 +331,7 @@ class TestInscripcionesMaterias {
 	}
 	
 	@Test
-	void agregarCarreraASistema() throws ErrorCarrera{
+	void agregarCarreraASistema() throws ErrorCarrera, ErrorListaEspera{
 		//creamos carreras(vacias) para corroborar que ingresan al sistema
 		BorradorCarrera borradorAdmHotel = new BorradorCarrera("Administracion hotelera");
 		BorradorCarrera borradorBiotecnologia = new BorradorCarrera("Biotecnologia");
@@ -352,7 +353,7 @@ class TestInscripcionesMaterias {
 		assertTrue(sistema.carreras().contains(biotecnologia));		
 	}
 	@Test
-	void sitemaInscripcionTest() throws ErrorEstudiante, ErrorCarrera, ErrorMateria{
+	void sitemaInscripcionTest() throws ErrorEstudiante, ErrorCarrera, ErrorMateria, ErrorListaEspera{
 		// carlos no esta inscripto en ninguna materia
 		assertTrue(sistema.materiasAlumnoInscripto(carlos).isEmpty());
 		//chequeamos las materias que puede cursar

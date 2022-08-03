@@ -4,6 +4,7 @@ import java.util.Set;
 import org.junit.platform.commons.util.StringUtils;
 
 import inscripcionMaterias.Errores.ErrorEstudiante;
+import inscripcionMaterias.Errores.ErrorListaEspera;
 import inscripcionMaterias.Errores.ErrorMateriaAprobada;
 import inscripcionMaterias.borradores.BorradorEstudiante;
 import inscripcionMaterias.borradores.BorradorMateriaAprobada;
@@ -44,7 +45,7 @@ public class Estudiante {
 		return materia.cumplePrerrequisitos(this);
 	}
 	
-	public void registrarMateriaAprobada(Materia matAprobada, Integer nota) throws ErrorMateriaAprobada{
+	public void registrarMateriaAprobada(Materia matAprobada, Integer nota) throws ErrorMateriaAprobada, ErrorListaEspera{
 		this.creditosObtenidos+= matAprobada.creditosOtorga();
 		
 		 BorradorMateriaAprobada materia = new BorradorMateriaAprobada(matAprobada.nombreMateria(),nota,
@@ -55,7 +56,7 @@ public class Estudiante {
 									//se lo elimina de la lista de la materia
 	}
 	
-	public void ingresarACurso(Materia materia) throws ErrorEstudiante{
+	public void ingresarACurso(Materia materia) throws ErrorEstudiante, ErrorListaEspera{
 		if(esMateriaDeCarrera(this, materia) && this.puedeCursar(materia) && !this.yaAprobo(materia)) {
 			materia.altaAlumno(this);
 			this.materias.add(materia);
@@ -81,7 +82,7 @@ public class Estudiante {
 		return ret;
 	}
 	
-	public void bajaMateria(Materia materia) throws ErrorEstudiante{
+	public void bajaMateria(Materia materia) throws ErrorEstudiante, ErrorListaEspera{
 		if(this.materias.contains(materia)) {
 		this.materias.remove(materia);
 		materia.bajaAlumno(this);

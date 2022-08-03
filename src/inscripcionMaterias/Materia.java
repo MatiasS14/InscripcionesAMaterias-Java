@@ -3,6 +3,7 @@ import java.util.Set;
 
 import org.junit.platform.commons.util.StringUtils;
 
+import inscripcionMaterias.Errores.ErrorListaEspera;
 import inscripcionMaterias.Errores.ErrorMateria;
 import inscripcionMaterias.borradores.BorradorMateria;
 import inscripcionMaterias.listasDeEspera.ListaDeEspera;
@@ -59,7 +60,7 @@ public class Materia {
 		return this.listaDeEspera.alumnos();
 	}
 	
-	public void altaAlumno(Estudiante alumno) {
+	public void altaAlumno(Estudiante alumno) throws ErrorListaEspera{
 		if(this.cupo > this.alumnosInscriptos.size()) {
 			this.alumnosInscriptos.add(alumno);
 		}else {
@@ -67,7 +68,7 @@ public class Materia {
 		}
 	}
 	
-	public void bajaAlumno(Estudiante alumno) {
+	public void bajaAlumno(Estudiante alumno) throws ErrorListaEspera{
 		this.alumnosInscriptos.remove(alumno);
 		if(!this.listaDeEspera().isEmpty()) {
 			//agrega al alumno con mayor prioridad de la lista de espera 

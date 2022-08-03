@@ -3,6 +3,7 @@ package inscripcionMaterias.listasDeEspera;
 import java.util.Queue;
 
 import inscripcionMaterias.Estudiante;
+import inscripcionMaterias.Errores.ErrorListaEspera;
 
 import java.util.LinkedList;
 
@@ -13,13 +14,18 @@ public class ListaDeEsperaOrdenDeLLegada extends ListaDeEspera{
 	}
 	
 	@Override
-	public void entrarListaEspera(Estudiante alumno) {
-		this.alumnosEnEspera.add(alumno);
+	public void entrarListaEspera(Estudiante alumno) throws ErrorListaEspera{
+		if(this.alumnosEnEspera.contains(alumno)) {
+			throw new ErrorListaEspera("El alumno ya esta en lista de espera");
+		}else {	
+			this.alumnosEnEspera.add(alumno);}
 	}
 
 	@Override
-	public void salirListaDeEspera() {
-		this.alumnosEnEspera.poll();
+	public void salirListaDeEspera() throws ErrorListaEspera{
+		if(this.alumnosEnEspera.size() > 0) {
+			this.alumnosEnEspera.poll();
+		}else {throw new ErrorListaEspera("La lista de espera esta vacia");}
 		
 	}
 	
